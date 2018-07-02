@@ -5,12 +5,12 @@ import (
 	"strconv"
 )
 
-var uuidPattern = "^[a-fA-F0-9]{8}-" +
+var uuidPattern = "^([a-fA-F0-9]{8}-" +
 	"[a-fA-F0-9]{4}-" +
 	"[%s]" +
 	"[a-fA-F0-9]{3}-" +
 	"[8|9|aA|bB][a-fA-F0-9]{3}-" +
-	"[a-fA-F0-9]{12}$"
+	"[a-fA-F0-9]{12})*$"
 
 func getUUIDRegex(version int32) (string, error) {
 	if version < 0 || version > 5 {
