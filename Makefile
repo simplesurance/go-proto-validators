@@ -1,45 +1,55 @@
+
 # Copyright 2016 Michal Witkowski. All Rights Reserved.
 # See LICENSE for licensing terms.
 
-export PATH := ${GOPATH}/bin:${PATH}
+install_deps:
+	go install -v github.com/gogo/protobuf/protoc-gen-gogo
+	go install -v github.com/golang/protobuf/protoc-gen-go
 
 install:
-	@echo "--- Installing govalidators to GOPATH"
-	go install github.com/simplesurance/go-proto-validators/protoc-gen-govalidators
+	go install -v ./...
 
 regenerate_test_gogo:
 	@echo "Regenerating test .proto files with gogo imports"
-	(protoc  \
-	--proto_path=${GOPATH}/src \
- 	--proto_path=test \
-	--gogo_out=test/gogo \
-	--govalidators_out=gogoimport=true:test/gogo test/*.proto)
+	(cd test && \
+	protoc \
+		--proto_path=. \
+		--proto_path=.. \
+		--proto_path=../vendor/ \
+		--gogo_out=gogo \
+		--govalidators_out=gogoimport=true:gogo *.proto)
 
 regenerate_test_golang:
 	@echo "--- Regenerating test .proto files with golang imports"
-	(protoc  \
-	--proto_path=${GOPATH}/src \
- 	--proto_path=test \
-	--go_out=test/golang \
-	--govalidators_out=test/golang test/*.proto)
+	(cd test && \
+	 protoc  \
+		--proto_path=. \
+		--proto_path=.. \
+		--proto_path=../vendor/ \
+		--go_out=golang \
+		--govalidators_out=golang *.proto)
 
 regenerate_example: install
 	@echo "--- Regenerating example directory"
-	(protoc  \
-	--proto_path=${GOPATH}/src \
-	--proto_path=. \
-	--go_out=. \
-	--govalidators_out=. examples/*.proto)
+	(cd examples && \
+	 protoc  \
+		--proto_path=. \
+		--proto_path=.. \
+		--go_out=. \
+		--govalidators_out=. *.proto)
 
-test: install regenerate_test_gogo regenerate_test_golang
+test: regenerate install regenerate_test_gogo regenerate_test_golang
 	@echo "Running tests"
 	go test -v ./...
 
-regenerate:
+regenerate: install_deps
 	@echo "--- Regenerating validator.proto"
 	(protoc \
-	--proto_path=${GOPATH}/src \
-	--proto_path=${GOPATH}/src/github.com/gogo/protobuf/protobuf \
-	--proto_path=. \
-	--gogo_out=Mgoogle/protobuf/descriptor.proto=github.com/gogo/protobuf/protoc-gen-gogo/descriptor:. \
-	validator.proto)
+		--proto_path=. \
+		--proto_path=vendor/github.com/gogo/protobuf/ \
+		--gogo_out=Mgoogle/protobuf/descriptor.proto=github.com/gogo/protobuf/protoc-gen-gogo/descriptor:. \
+		validator.proto )
+
+clean:
+	(find examples test -name "*.pb.go" -delete)
+	rm -f validator.pb.go

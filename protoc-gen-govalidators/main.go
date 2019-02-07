@@ -11,6 +11,7 @@ import (
 
 	"github.com/gogo/protobuf/proto"
 	"github.com/gogo/protobuf/protoc-gen-gogo/generator"
+
 	validator_plugin "github.com/simplesurance/go-proto-validators/plugin"
 )
 
