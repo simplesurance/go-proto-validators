@@ -3,14 +3,15 @@
 # See LICENSE for licensing terms.
 
 install_deps:
-	go install -v github.com/gogo/protobuf/protoc-gen-gogo
-	go install -v github.com/golang/protobuf/protoc-gen-go
+	@echo "-- Installing dependencies"
+	./install_protoc_gen.sh
 
 install:
-	go install -v ./...
+	@echo "-- Installing go-proto-validators plugin"
+	go install -mod=vendor -v ./...
 
 regenerate_test_gogo:
-	@echo "Regenerating test .proto files with gogo imports"
+	@echo "--- Regenerating test .proto files with gogo imports"
 	(cd test && \
 	protoc \
 		--proto_path=. \
@@ -29,7 +30,7 @@ regenerate_test_golang:
 		--go_out=golang \
 		--govalidators_out=golang *.proto)
 
-regenerate_example: install
+regenerate_example: regenerate install
 	@echo "--- Regenerating example directory"
 	(cd examples && \
 	 protoc  \
@@ -39,8 +40,8 @@ regenerate_example: install
 		--govalidators_out=. *.proto)
 
 test: regenerate install regenerate_test_gogo regenerate_test_golang
-	@echo "Running tests"
-	go test -v ./...
+	@echo "--- Running tests"
+	go test -mod=vendor -v ./...
 
 regenerate: install_deps
 	@echo "--- Regenerating validator.proto"
