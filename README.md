@@ -2,8 +2,10 @@
 [![Apache 2.0 License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 
 This version is a fork of the original mwitkow/go-proto-validators.
-It was updated to use go modules and, recent protoc generators.
-
+Changes:
+- a validator for UUIDs,
+- use of go modules,
+- support for recent protoc generator versions
 
 ---
 

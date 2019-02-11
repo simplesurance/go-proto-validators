@@ -30,7 +30,7 @@ func (m *InnerMessage) Reset()         { *m = InnerMessage{} }
 func (m *InnerMessage) String() string { return proto.CompactTextString(m) }
 func (*InnerMessage) ProtoMessage()    {}
 func (*InnerMessage) Descriptor() ([]byte, []int) {
-	return fileDescriptor_nested_a6dac68aa914f016, []int{0}
+	return fileDescriptor_nested_3a47346b93826071, []int{0}
 }
 func (m *InnerMessage) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_InnerMessage.Unmarshal(m, b)
@@ -62,7 +62,7 @@ type OuterMessage struct {
 	ImportantString string `protobuf:"bytes,1,opt,name=important_string,json=importantString,proto3" json:"important_string,omitempty"`
 	// proto3 doesn't have `required`, the `msg_exist` enforces presence of InnerMessage.
 	Inner *InnerMessage `protobuf:"bytes,2,opt,name=inner,proto3" json:"inner,omitempty"`
-	// user_id must be valid uuid4
+	// user_id must be a valid version 4 UUID
 	UserId               string   `protobuf:"bytes,3,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
@@ -73,7 +73,7 @@ func (m *OuterMessage) Reset()         { *m = OuterMessage{} }
 func (m *OuterMessage) String() string { return proto.CompactTextString(m) }
 func (*OuterMessage) ProtoMessage()    {}
 func (*OuterMessage) Descriptor() ([]byte, []int) {
-	return fileDescriptor_nested_a6dac68aa914f016, []int{1}
+	return fileDescriptor_nested_3a47346b93826071, []int{1}
 }
 func (m *OuterMessage) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_OuterMessage.Unmarshal(m, b)
@@ -119,9 +119,9 @@ func init() {
 	proto.RegisterType((*OuterMessage)(nil), "validator.examples.OuterMessage")
 }
 
-func init() { proto.RegisterFile("nested.proto", fileDescriptor_nested_a6dac68aa914f016) }
+func init() { proto.RegisterFile("nested.proto", fileDescriptor_nested_3a47346b93826071) }
 
-var fileDescriptor_nested_a6dac68aa914f016 = []byte{
+var fileDescriptor_nested_3a47346b93826071 = []byte{
 	// 246 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0xe2, 0xc9, 0x4b, 0x2d, 0x2e,
 	0x49, 0x4d, 0xd1, 0x2b, 0x28, 0xca, 0x2f, 0xc9, 0x17, 0x12, 0x2a, 0x4b, 0xcc, 0xc9, 0x4c, 0x49,
