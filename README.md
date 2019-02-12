@@ -4,14 +4,15 @@
 This version is a fork of the original mwitkow/go-proto-validators.
 Changes:
 - a validator for UUIDs,
-- use of go modules,
+- use of go modules and vendored 3. party libraries
 - support for recent protoc generator versions
 
 ---
 
-A `protoc` plugin that generates `Validate() error` functions on Go proto `struct`s based on field options inside `.proto` 
-files. The validation functions are code-generated and thus don't suffer on performance from tag-based reflection on
-deeply-nested messages.
+go-proto-valdiators is a  `protoc` plugin that generates `Validate() error`
+functions on Go proto `struct`s based on field options inside `.proto` files.
+The validation functions are code-generated and thus don't suffer on performance
+from tag-based reflection on deeply-nested messages.
 
 ## Paint me a code picture
 
@@ -37,11 +38,14 @@ message OuterMessage {
 }
 ```
 
-First, the **`required` keyword is back** for `proto3`, under the guise of `msg_exists`. The painful `if-nil` checks are taken care of!
+First, the **`required` keyword is back** for `proto3`, under the guise of
+`msg_exists`. The painful `if-nil` checks are taken care of!
 
-Second, the expected values in fields are now part of the contract `.proto` file. No more hunting down conditions in code!
+Second, the expected values in fields are now part of the contract `.proto`
+file. No more hunting down conditions in code!
 
-Third, the generated code is understandable and has clear understandable error messages. Take a look:
+Third, the generated code is understandable and has clear understandable error
+messages. Take a look:
 
 ```go
 func (this *InnerMessage) Validate() error {
@@ -80,13 +84,10 @@ func (this *OuterMessage) Validate() error {
 
 ## Installing and using
 
-The `protoc` compiler expects to find plugins named `proto-gen-XYZ` on the execution `$PATH`. So first:
+The `protoc` compiler expects to find plugins named `proto-gen-XYZ` on the
+execution `$PATH`.
 
-```sh
-export PATH=${PATH}:${GOPATH}/bin
-```
-
-Then, do the usual
+Do the usual:
 
 ```sh
 go get github.com/simplesurance/go-proto-validators/protoc-gen-govalidators
@@ -101,9 +102,10 @@ protoc  \
 	*.proto
 ```
 
-That's fine, until you encounter `.proto` includes. Because `go-proto-validators` uses field options inside the `.proto` 
-files themselves, it's `.proto` definition (and the Google `descriptor.proto` itself) need to on the `protoc` include
-path. Hence the above becomes:
+That's fine, until you encounter `.proto` includes.
+Because `go-proto-validators` uses field options inside the `.proto` files
+themselves, it's `.proto` definition (and the Google `descriptor.proto`
+itself) need to on the `protoc` include path. Hence the above becomes:
 
 ```sh
 protoc  \
@@ -127,9 +129,11 @@ protoc  \
 	*.proto
 ```
 
-Basically the magical incantation (apart from includes) is the `--govalidators_out`. That triggers the 
-`protoc-gen-govalidators` plugin to generate `mymessage.validator.pb.go`. That's it :)
+Basically the magical incantation (apart from includes) is the
+`--govalidators_out`. That triggers the `protoc-gen-govalidators` plugin to
+generate `mymessage.validator.pb.go`. That's it :)
 
 ### License
 
-`go-proto-validators` is released under the Apache 2.0 license. See the [LICENSE](LICENSE) file for details.
+`go-proto-validators` is released under the Apache 2.0 license.
+See the [LICENSE](LICENSE) file for details.
