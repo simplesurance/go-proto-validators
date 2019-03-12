@@ -148,7 +148,7 @@ func (p *plugin) generateRegexVars(file *generator.FileDescriptor, message *gene
 	for _, field := range message.Field {
 		validator := getFieldValidatorIfAny(field)
 		if validator != nil && (validator.Regex != nil || validator.UuidVer != nil) {
-			fieldName := p.GetFieldName(message, field)
+			fieldName := p.GetOneOfFieldName(message, field)
 			if validator.UuidVer != nil {
 				if uuid, err := getUUIDRegex(validator.GetUuidVer()); err != nil {
 					fmt.Fprintf(
