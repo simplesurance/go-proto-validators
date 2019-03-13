@@ -4,8 +4,10 @@
 This version is a fork of the original mwitkow/go-proto-validators.
 Changes:
 - a validator for UUIDs,
-- use of go modules and vendored 3. party libraries
-- support for recent protoc generator versions
+- use of go modules and vendored 3. party libraries,
+- support for recent protoc generator versions,
+- bugfixes from unmerged upstream PRs,
+- Github releases
 
 ---
 
